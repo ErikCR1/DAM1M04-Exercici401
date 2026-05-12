@@ -1,0 +1,125 @@
+{{> header}}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Registrar Nova Venda</h2>
+    <a href="/vendes" class="btn btn-secondary">Tornar al llistat</a>
+</div>
+
+<form action="/createVenda" method="POST" id="form-venda">
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-header bg-dark text-white fw-bold">Dades de la Venda</div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label class="form-label">Client <span class="text-danger">*</span></label>
+                        <select name="customer_id" class="form-select" required>
+                            <option value="">Selecciona un client...</option>
+                            {{#each clients}}
+                            <option value="{{this.id}}">{{this.name}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Mètode de pagament</label>
+                        <select name="payment_method" class="form-select">
+                            <option value="Targeta">Targeta de Crèdit/Dèbit</option>
+                            <option value="Efectiu">Efectiu</option>
+                            <option value="Transferència">Transferència Bancària</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <div class="card shadow-sm h-100">
+                <div class="card-header bg-primary text-white fw-bold d-flex justify-content-between align-items-center">
+                    <span>Cistella de Productes</span>
+                    <button type="button" id="btn-add-line" class="btn btn-sm btn-light text-primary fw-bold">+ Afegir Producte</button>
+                </div>
+                <div class="card-body">
+                    <table class="table" id="taula-linies">
+                        <thead>
+                            <tr>
+                                <th width="60%">Producte</th>
+                                <th width="20%">Quantitat</th>
+                                <th width="20%">Acció</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            </tbody>
+                    </table>
+                    
+                    <div class="d-flex justify-content-end mt-4">
+                        <button type="submit" class="btn btn-success btn-lg">Finalitzar i Guardar Venda</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<template id="linia-template">
+    <tr>
+        <td>
+            <select name="product_id" class="form-select select-producte" required>
+                <option value="">Tria un producte...</option>
+                {{#each productes}}
+                <option value="{{this.id}}" data-stock="{{this.stock}}">{{this.name}} (Estoc: {{this.stock}} | {{this.price}}€)</option>
+                {{/each}}
+            </select>
+        </td>
+        <td>
+            <input type="number" name="qty" class="form-control input-qty" min="1" value="1" required>
+        </td>
+        <td>
+            <button type="button" class="btn btn-danger btn-sm btn-remove-line">Eliminar</button>
+        </td>
+    </tr>
+</template>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const taula = document.querySelector('#taula-linies tbody');
+    const btnAdd = document.getElementById('btn-add-line');
+    const template = document.getElementById('linia-template');
+
+    // Funció per afegir una nova línia
+    function afegirLinia() {
+        const novaLinia = template.content.cloneNode(true);
+        taula.appendChild(novaLinia);
+    }
+
+    // Afegim una línia per defecte en carregar
+    afegirLinia();
+
+    // Event per afegir més línies
+    btnAdd.addEventListener('click', afegirLinia);
+
+    // Event delegat per eliminar línies o controlar l'estoc
+    taula.addEventListener('click', (e) => {
+        if (e.target.classList.contains('btn-remove-line')) {
+            e.target.closest('tr').remove();
+        }
+    });
+
+    // Control d'estoc en canviar el producte o la quantitat
+    taula.addEventListener('change', (e) => {
+        if (e.target.classList.contains('select-producte')) {
+            const tr = e.target.closest('tr');
+            const qtyInput = tr.querySelector('.input-qty');
+            const selectedOption = e.target.options[e.target.selectedIndex];
+            
+            // Si hem triat un producte, limitem la quantitat màxima a l'estoc
+            if (selectedOption.value !== "") {
+                qtyInput.max = selectedOption.getAttribute('data-stock');
+            } else {
+                qtyInput.removeAttribute('max');
+            }
+        }
+    });
+});
+</script>
+
+{{> footer}}

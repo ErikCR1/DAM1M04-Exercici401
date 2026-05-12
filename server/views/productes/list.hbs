@@ -1,0 +1,97 @@
+{{> header}}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Llistat de Productes</h2>
+    <a href="/producteAfegir" class="btn btn-primary">+ Afegir Producte</a>
+</div>
+
+<div class="card mb-4 shadow-sm">
+    <div class="card-body">
+        <form action="/productes" method="GET" class="row g-3 align-items-center">
+            <div class="col-md-9">
+                <input type="text" name="cerca" value="{{cerca}}" class="form-control" placeholder="Cercar per nom o categoria...">
+            </div>
+            <div class="col-md-3 text-end">
+                <input type="hidden" name="pagina" value="0">
+                <button type="submit" class="btn btn-secondary w-100">Cercar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="mb-3">
+    <button id="btn-toggle-stock" class="btn btn-sm btn-outline-info">Activar/Desactivar Colors d'Estoc</button>
+</div>
+
+<div class="table-responsive bg-white rounded shadow-sm">
+    <table class="table table-hover mb-0" id="products-table">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Nom</th>
+                <th>Categoria</th>
+                <th>Preu</th>
+                <th>Estoc</th>
+                <th>Estat</th>
+                <th>Accions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each products}}
+            <tr class="product-row" data-stock="{{this.stock}}">
+                <td>{{this.id}}</td>
+                <td><strong>{{this.name}}</strong></td>
+                <td><span class="badge bg-secondary">{{this.category}}</span></td>
+                <td>{{this.price}} €</td>
+                <td class="fw-bold stock-cell">{{this.stock}} unitats</td>
+                <td>
+                    {{#if this.active}}
+                        <span class="text-success">🟢 Actiu</span>
+                    {{else}}
+                        <span class="text-danger">🔴 Inactiu</span>
+                    {{/if}}
+                </td>
+                <td>
+                    <a href="/producteEditar?id={{this.id}}" class="btn btn-sm btn-warning">Editar</a>
+                </td>
+            </tr>
+            {{else}}
+            <tr>
+                <td colspan="7" class="text-center py-4 text-muted">No s'han trobat productes.</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>
+
+<div class="d-flex justify-content-between mt-4">
+    <a href="/productes?pagina={{resta pagina 1}}&cerca={{cerca}}" class="btn btn-outline-primary {{#if (eq pagina 0)}}disabled{{/if}}">&laquo; Anterior</a>
+    <span class="align-self-center text-muted">Pàgina {{suma pagina 1}} de {{totalPages}}</span>
+    <a href="/productes?pagina={{suma pagina 1}}&cerca={{cerca}}" class="btn btn-outline-primary {{#if (eq (suma pagina 1) totalPages)}}disabled{{/if}}">Següent &raquo;</a>
+</div>
+
+<script>
+    document.getElementById('btn-toggle-stock')?.addEventListener('click', () => {
+        const rows = document.querySelectorAll('.product-row');
+        rows.forEach(row => {
+            const stock = parseInt(row.getAttribute('data-stock'));
+            
+            // Si ja té els colors activats, els netegem
+            if (row.classList.contains('colors-active')) {
+                row.classList.remove('colors-active', 'table-success', 'table-warning', 'table-danger');
+            } else {
+                // Si no, activem els colors segons l'estoc
+                row.classList.add('colors-active');
+                if (stock > 15) {
+                    row.classList.add('table-success'); // Verd
+                } else if (stock > 5) {
+                    row.classList.add('table-warning'); // Taronja
+                } else {
+                    row.classList.add('table-danger'); // Vermell
+                }
+            }
+        });
+    });
+</script>
+
+{{> footer}}

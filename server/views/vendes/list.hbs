@@ -1,0 +1,86 @@
+{{> header}}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Gestió de Vendes</h2>
+    <a href="/vendaAfegir" class="btn btn-primary shadow-sm">+ Registrar Nova Venda</a>
+</div>
+
+<div class="card mb-4 shadow-sm">
+    <div class="card-body">
+        <form action="/vendes" method="GET" class="row g-3 align-items-center">
+            <div class="col-md-9">
+                <div class="input-group">
+                    <span class="input-group-text bg-white"><i class="bi bi-search"></i>🔍</span>
+                    <input type="text" name="cerca" value="{{cerca}}" class="form-control" placeholder="Cerca per nom de client o data (DD/MM/YYYY)...">
+                </div>
+                <div class="form-text text-muted ps-1">Exemple: "Erik" o "09/05/2026"</div>
+            </div>
+            <div class="col-md-3 text-end">
+                <input type="hidden" name="pagina" value="0">
+                <button type="submit" class="btn btn-secondary w-100 fw-bold">Cercar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="table-responsive bg-white rounded shadow-sm">
+    <table class="table table-hover mb-0">
+        <thead class="table-dark">
+            <tr>
+                <th class="ps-3">ID</th>
+                <th>Data de Venda</th>
+                <th>Client</th>
+                <th class="text-end">Total</th>
+                <th class="text-center">Accions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each vendes}}
+            <tr class="align-middle">
+                <td class="ps-3 text-muted">#{{this.id}}</td>
+                <td>{{this.sale_date}}</td>
+                <td><strong class="text-primary">{{this.client}}</strong></td>
+                <td class="text-end fw-bold text-success fs-5">{{this.total}} €</td>
+                <td class="text-center">
+                    <a href="/vendaFitxa?id={{this.id}}" class="btn btn-sm btn-outline-info px-3">
+                        👁️ Veure Detall
+                    </a>
+                </td>
+            </tr>
+            {{else}}
+            <tr>
+                <td colspan="5" class="text-center py-5">
+                    <div class="text-muted">
+                        <p class="fs-4 mb-1">No s'ha trobat cap venda</p>
+                        <p>Prova amb un altre criteri de cerca o registra una venda nova.</p>
+                    </div>
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>
+
+{{#if (gt totalPages 1)}}
+<div class="d-flex justify-content-between align-items-center mt-4 bg-light p-3 rounded border">
+    <div>
+        <a href="/vendes?pagina={{resta pagina 1}}&cerca={{cerca}}" 
+           class="btn btn-outline-primary {{#if (eq pagina 0)}}disabled{{/if}}">
+           &laquo; Anterior
+        </a>
+    </div>
+    
+    <div class="text-center">
+        <span class="text-muted">Pàgina <strong>{{suma pagina 1}}</strong> de {{totalPages}}</span>
+    </div>
+    
+    <div>
+        <a href="/vendes?pagina={{suma pagina 1}}&cerca={{cerca}}" 
+           class="btn btn-outline-primary {{#if (eq (suma pagina 1) totalPages)}}disabled{{/if}}">
+           Següent &raquo;
+        </a>
+    </div>
+</div>
+{{/if}}
+
+{{> footer}}

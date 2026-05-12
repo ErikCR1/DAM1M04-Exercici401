@@ -1,0 +1,44 @@
+{{> header}}
+
+<h2 class="mb-4">{{#if client.id}}Editar Client{{else}}Nou Client{{/if}}</h2>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <form id="client-form" action="{{#if client.id}}/Update{{else}}/create{{/if}}" method="POST" novalidate>
+            <input type="hidden" name="taula" value="clients">
+            {{#if client.id}}<input type="hidden" name="id" value="{{client.id}}">{{/if}}
+
+            <div class="mb-3">
+                <label for="name" class="form-label">Nom complet <span class="text-danger"></span></label>
+                <input type="text" id="name" name="name" value="{{client.name}}" class="form-control" required>
+                <div class="invalid-feedback" id="error-name">El nom és obligatori.</div>
+            </div>
+
+            <div class="mb-3">
+                <label for="email" class="form-label">Correu electrònic <span class="text-danger"></span></label>
+                <input type="email" id="email" name="email" value="{{client.email}}" class="form-control" required>
+                <div class="invalid-feedback" id="error-email">Introdueix un email vàlid.</div>
+            </div>
+
+            <div class="mb-4">
+                <label for="phone" class="form-label">Telèfon (mínim 9 xifres)</label>
+                <input type="text" id="phone" name="phone" value="{{client.phone}}" class="form-control">
+                <div class="invalid-feedback" id="error-phone">El telèfon ha de tenir almenys 9 caràcters.</div>
+            </div>
+
+            <button type="submit" class="btn btn-success">Guardar Client</button>
+            <a href="/clients" class="btn btn-secondary">Cancel·lar</a>
+        </form>
+    </div>
+</div>
+{{#if client.id}}
+<div class="mt-4 text-end">
+    <form action="/Delete" method="POST" onsubmit="return confirm('ATENCIÓ: Segur que vols esborrar aquest client?');">
+        <input type="hidden" name="taula" value="clients">
+        <input type="hidden" name="id" value="{{client.id}}">
+        <button type="submit" class="btn btn-danger">Esborrar Client</button>
+    </form>
+</div>
+{{/if}}
+
+{{> footer}}

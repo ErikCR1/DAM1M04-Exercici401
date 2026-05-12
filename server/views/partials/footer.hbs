@@ -1,0 +1,26 @@
+<script>
+console.log("JS de Temes carregat correctament");
+
+document.addEventListener('change', (e) => {
+    // Fem servir "delegació d'esdeveniments" per si el selector triga a carregar
+    if (e.target && e.target.id === 'theme-selector') {
+        const selectedTheme = e.target.value;
+        console.log("Has triat el tema:", selectedTheme);
+        
+        document.body.className = selectedTheme;
+        localStorage.setItem('erp-theme', selectedTheme);
+    }
+});
+
+// En carregar la pàgina, apliquem el que hi hagi guardat
+(function() {
+    const savedTheme = localStorage.getItem('erp-theme') || 'theme-clar';
+    document.body.className = savedTheme;
+    
+    // Intentem posar el selector en la posició correcta després d'un mini retard
+    setTimeout(() => {
+        const selector = document.getElementById('theme-selector');
+        if (selector) selector.value = savedTheme;
+    }, 100);
+})();
+</script>

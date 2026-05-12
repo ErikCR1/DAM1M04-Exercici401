@@ -1,0 +1,63 @@
+{{> header}}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Detall de la Venda #{{venda.id}}</h2>
+    <a href="/vendes" class="btn btn-secondary">Tornar al llistat</a>
+</div>
+
+<div class="row g-4">
+    <div class="col-12">
+        <div class="card shadow-sm border-secondary">
+            <div class="card-body row">
+                <div class="col-md-6 border-end">
+                    <h5 class="text-muted mb-3">Dades del Client</h5>
+                    <p class="mb-1"><strong>Nom:</strong> {{venda.client_name}}</p>
+                    <p class="mb-0"><strong>Email:</strong> {{venda.client_email}}</p>
+                </div>
+                <div class="col-md-6 ps-4">
+                    <h5 class="text-muted mb-3">Detalls de la Transacció</h5>
+                    <p class="mb-1"><strong>Data i Hora:</strong> {{venda.data_venda}}</p>
+                    <p class="mb-0"><strong>Mètode de Pagament:</strong> <span class="badge bg-primary">{{venda.payment_method}}</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 mt-4">
+        <div class="card shadow-sm">
+            <div class="card-header bg-dark text-white fw-bold">
+                Línies de Comanda
+            </div>
+            <div class="card-body p-0">
+                <table class="table table-striped mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Producte</th>
+                            <th class="text-center">Quantitat</th>
+                            <th class="text-end">Preu Unitari</th>
+                            <th class="text-end">Total Línia</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each linies}}
+                        <tr>
+                            <td>{{this.product_name}}</td>
+                            <td class="text-center">{{this.qty}}</td>
+                            <td class="text-end">{{this.unit_price}} €</td>
+                            <td class="text-end fw-bold">{{this.line_total}} €</td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                    <tfoot class="table-dark">
+                        <tr>
+                            <td colspan="3" class="text-end fs-5"><strong>TOTAL DE LA VENDA:</strong></td>
+                            <td class="text-end fs-5 text-success fw-bold bg-light">{{venda.total}} €</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{> footer}}

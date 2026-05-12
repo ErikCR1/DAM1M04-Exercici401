@@ -1,0 +1,25 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node --watch --watch-path ./server ./server/app.js",
+    "pm2start": "pm2 start ./server/app.js --name app",
+    "pm2stop": "pm2 stop app",
+    "pm2restart": "pm2 restart app",
+    "pm2delete": "pm2 delete app",
+    "pm2list": "pm2 list",
+    "pm2logs": "pm2 logs app"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.2.1",
+    "handlebars": "^4.7.8",
+    "hbs": "^4.2.0",
+    "mysql2": "^3.16.3",
+    "pm2": "^6.0.14"
+  }
+}

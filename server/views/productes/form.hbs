@@ -1,0 +1,100 @@
+{{> header}}
+
+<h2 class="mb-4">{{#if producte.id}}Editar Producte{{else}}Nou Producte{{/if}}</h2>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <form id="product-form" action="{{#if producte.id}}/Update{{else}}/create{{/if}}" method="POST" novalidate>
+            <input type="hidden" name="taula" value="productes">
+            {{#if producte.id}}<input type="hidden" name="id" value="{{producte.id}}">{{/if}}
+
+            <div class="mb-3">
+                <label for="name" class="form-label">Nom del Producte <span class="text-danger">*</span></label>
+                <input type="text" id="name" name="name" value="{{producte.name}}" class="form-control">
+                <div class="invalid-feedback" id="error-name"></div>
+            </div>
+
+            <div class="mb-3">
+                <label for="category" class="form-label">Categoria <span class="text-danger">*</span></label>
+                <input type="text" id="category" name="category" value="{{producte.category}}" class="form-control">
+                <div class="invalid-feedback" id="error-category"></div>
+            </div>
+
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <label for="price" class="form-label">Preu (€) <span class="text-danger">*</span></label>
+                    <input type="number" step="0.01" id="price" name="price" value="{{producte.price}}" class="form-control">
+                    <div class="invalid-feedback" id="error-price"></div>
+                </div>
+                <div class="col-md-6">
+                    <label for="stock" class="form-label">Estoc Inicial <span class="text-danger">*</span></label>
+                    <input type="number" id="stock" name="stock" value="{{#if producte.stock}}{{producte.stock}}{{else}}0{{/if}}" class="form-control">
+                    <div class="invalid-feedback" id="error-stock"></div>
+                </div>
+            </div>
+
+            <div class="form-check mb-4">
+                <input type="checkbox" class="form-check-input" id="active" name="active" {{#if producte.id}}{{#if producte.active}}checked{{/if}}{{else}}checked{{/if}}>
+                <label class="form-check-label" for="active">Producte disponible per a la venda (Actiu)</label>
+            </div>
+
+            <button type="submit" class="btn btn-success">Guardar Producte</button>
+            <a href="/productes" class="btn btn-secondary">Cancel·lar</a>
+        </form>
+    </div>
+</div>
+
+{{#if producte.id}}
+<div class="mt-4 text-end">
+    <form action="/Delete" method="POST" onsubmit="return confirm('ATENCIÓ: Segur que vols esborrar aquest producte?');">
+        <input type="hidden" name="taula" value="productes">
+        <input type="hidden" name="id" value="{{producte.id}}">
+        <button type="submit" class="btn btn-danger">Esborrar Producte</button>
+    </form>
+</div>
+{{/if}}
+
+<script>
+    document.getElementById('product-form').addEventListener('submit', function(e) {
+        let isValid = true;
+
+        // Reset d'estils i missatges
+        document.querySelectorAll('.form-control').forEach(el => el.classList.remove('is-invalid'));
+        
+        const name = document.getElementById('name');
+        if (name.value.trim().length < 3) {
+            name.classList.add('is-invalid');
+            document.getElementById('error-name').innerText = "El nom ha de tenir almenys 3 caràcters.";
+            isValid = false;
+        }
+
+        const category = document.getElementById('category');
+        if (category.value.trim() === '') {
+            category.classList.add('is-invalid');
+            document.getElementById('error-category').innerText = "La categoria és obligatòria.";
+            isValid = false;
+        }
+
+        const price = document.getElementById('price');
+        if (parseFloat(price.value) <= 0 || price.value === '') {
+            price.classList.add('is-invalid');
+            document.getElementById('error-price').innerText = "El preu ha de ser més gran que 0.";
+            isValid = false;
+        }
+
+        const stock = document.getElementById('stock');
+        const stockValue = Number(stock.value);
+        if (stock.value === '' || stockValue < 0 || !Number.isInteger(stockValue)) {
+            stock.classList.add('is-invalid');
+            document.getElementById('error-stock').innerText = "L'estoc ha de ser un número enter positiu (0 o més).";
+            isValid = false;
+        }
+
+        // Si hi ha algun error, evitem que el formulari s'enviï
+        if (!isValid) {
+            e.preventDefault();
+        }
+    });
+</script>
+
+{{> footer}}

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MiniERP Botiga</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="theme-clar"> {{> header}}
+    {{> menu}}
+
+    <div class="container mt-4">
+        {{{body}}}
+    </div>
+
+    {{> footer}}
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const themeSelector = document.getElementById('theme-selector');
+            const body = document.body;
+
+            // Carregar el tema guardat al localStorage
+            const savedTheme = localStorage.getItem('erp-theme') || 'theme-clar';
+            body.className = savedTheme;
+            
+            if(themeSelector) {
+                themeSelector.value = savedTheme;
+                // Escoltar canvis al selector
+                themeSelector.addEventListener('change', (e) => {
+                    const selected = e.target.value;
+                    body.className = selected;
+                    localStorage.setItem('erp-theme', selected);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
