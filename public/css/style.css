@@ -1,34 +1,33 @@
-/* ELIMINA qualsevol configuració anterior de temes i posa aquesta */
-
-/* TEMA CLAR */
-body.theme-clar, body {
-    background-color: #f8f9fa !important;
-    color: #212529 !important;
+/* Tema clar */
+body.theme-clar,
+body {
+  background-color: #f8f9fa !important;
+  color: #212529 !important;
 }
 
-/* TEMA NIT SUAU */
+/* Tema nit suau */
 body.theme-nit-suau {
-    background-color: #1e1e2f !important;
-    color: #e0e0e0 !important;
+  background-color: #1e1e2f !important;
+  color: #e0e0e0 !important;
 }
 body.theme-nit-suau .card {
-    background-color: #27293d !important;
-    color: #ffffff !important;
-    border: 1px solid rgba(255,255,255,0.1) !important;
+  background-color: #27293d !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
 }
 
-/* TEMA ALT CONTRAST */
+/* Tema alt contrast */
 body.theme-alt-contrast {
-    background-color: #000000 !important;
-    color: #ffff00 !important; /* Groc chillón */
+  background-color: #000000 !important;
+  color: #ffff00 !important; /* Groc */
 }
 body.theme-alt-contrast .card {
-    background-color: #000000 !important;
-    color: #ffff00 !important;
-    border: 3px solid #ffff00 !important;
+  background-color: #000000 !important;
+  color: #ffff00 !important;
+  border: 3px solid #ffff00 !important;
 }
 body.theme-alt-contrast .btn-primary {
-    background-color: #ffff00 !important;
-    color: #000000 !important;
-    border: none !important;
+  background-color: #ffff00 !important;
+  color: #000000 !important;
+  border: none !important;
 }

@@ -98,17 +98,17 @@
 </div>
 
 <script>
-    // Lògica Toggle Compacte/Complert
+    // Toggle compacte
     document.getElementById('btn-toggle-compact')?.addEventListener('click', () => {
         const extras = document.querySelectorAll('.kpi-extra');
         extras.forEach(el => el.classList.toggle('d-none'));
     });
 
-    // Lògica Toggle Colors (Només per visualitzar el funcionament a la taula de Top Productes)
+    // Toggle colors demo
     document.getElementById('btn-toggle-colors')?.addEventListener('click', () => {
         const rows = document.querySelectorAll('.product-row');
         rows.forEach((row, index) => {
-            // Alterna una classe d'alerta de Bootstrap per simular els colors d'stock
+            // Marca fila
             row.classList.toggle('table-warning');
         });
     });

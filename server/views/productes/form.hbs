@@ -58,7 +58,7 @@
     document.getElementById('product-form').addEventListener('submit', function(e) {
         let isValid = true;
 
-        // Reset d'estils i missatges
+        // Reset validacio
         document.querySelectorAll('.form-control').forEach(el => el.classList.remove('is-invalid'));
         
         const name = document.getElementById('name');
@@ -90,7 +90,7 @@
             isValid = false;
         }
 
-        // Si hi ha algun error, evitem que el formulari s'enviï
+        // Atura enviament si invalid
         if (!isValid) {
             e.preventDefault();
         }

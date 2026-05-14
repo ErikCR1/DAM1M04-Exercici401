@@ -1,0 +1,65 @@
+{{> header}}
+
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Llistat de Proveïdors</h2>
+    <a href="/proveidorAfegir" class="btn btn-primary">+ Afegir Proveïdor</a>
+</div>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <form action="/proveidors" method="GET" class="row g-3 align-items-center">
+            <div class="col-md-9">
+                <input type="text" name="cerca" value="{{cerca}}" class="form-control" placeholder="Cercar per nom o email...">
+            </div>
+            <div class="col-md-3 text-end">
+                <input type="hidden" name="pagina" value="0">
+                <button type="submit" class="btn btn-secondary w-100">Cercar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<div class="table-responsive">
+    <table class="table table-striped table-bordered table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Nom</th>
+                <th>Email</th>
+                <th>Telèfon</th>
+                <th>Núm. Productes</th>
+                <th>Accions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each proveidors}}
+            <tr>
+                <td>{{this.id}}</td>
+                <td><strong>{{this.name}}</strong></td>
+                <td>{{this.email}}</td>
+                <td>{{this.phone}}</td>
+                <td>{{this.num_productes}}</td>
+                <td>
+                    <a href="/proveidorEditar?id={{this.id}}" class="btn btn-sm btn-warning">Editar</a>
+                </td>
+            </tr>
+            {{else}}
+            <tr>
+                <td colspan="6" class="text-center py-4">No s'han trobat proveïdors amb aquests criteris.</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>
+
+<div class="d-flex justify-content-between mt-4">
+    <a href="/proveidors?pagina={{resta pagina 1}}&cerca={{cerca}}" class="btn btn-outline-primary {{#if (eq pagina 0)}}disabled{{/if}}">&laquo; Anterior</a>
+
+    <span class="align-self-center text-muted">Pàgina {{suma pagina 1}} de {{totalPages}}</span>
+
+    <a href="/proveidors?pagina={{suma pagina 1}}&cerca={{cerca}}" class="btn btn-outline-primary {{#if (eq (suma pagina 1) totalPages)}}disabled{{/if}}">Següent &raquo;</a>
+</div>
+
+{{> footer}}

@@ -85,33 +85,33 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnAdd = document.getElementById('btn-add-line');
     const template = document.getElementById('linia-template');
 
-    // Funció per afegir una nova línia
+    // Afegeix linia
     function afegirLinia() {
         const novaLinia = template.content.cloneNode(true);
         taula.appendChild(novaLinia);
     }
 
-    // Afegim una línia per defecte en carregar
+    // Linia inicial
     afegirLinia();
 
-    // Event per afegir més línies
+    // Mes linies
     btnAdd.addEventListener('click', afegirLinia);
 
-    // Event delegat per eliminar línies o controlar l'estoc
+    // Elimina linia
     taula.addEventListener('click', (e) => {
         if (e.target.classList.contains('btn-remove-line')) {
             e.target.closest('tr').remove();
         }
     });
 
-    // Control d'estoc en canviar el producte o la quantitat
+    // Control estoc
     taula.addEventListener('change', (e) => {
         if (e.target.classList.contains('select-producte')) {
             const tr = e.target.closest('tr');
             const qtyInput = tr.querySelector('.input-qty');
             const selectedOption = e.target.options[e.target.selectedIndex];
             
-            // Si hem triat un producte, limitem la quantitat màxima a l'estoc
+            // Limita quantitat
             if (selectedOption.value !== "") {
                 qtyInput.max = selectedOption.getAttribute('data-stock');
             } else {

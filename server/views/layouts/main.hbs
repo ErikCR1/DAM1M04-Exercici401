@@ -23,13 +23,13 @@
             const themeSelector = document.getElementById('theme-selector');
             const body = document.body;
 
-            // Carregar el tema guardat al localStorage
+            // Carrega tema guardat
             const savedTheme = localStorage.getItem('erp-theme') || 'theme-clar';
             body.className = savedTheme;
             
             if(themeSelector) {
                 themeSelector.value = savedTheme;
-                // Escoltar canvis al selector
+                // Canvi tema
                 themeSelector.addEventListener('change', (e) => {
                     const selected = e.target.value;
                     body.className = selected;

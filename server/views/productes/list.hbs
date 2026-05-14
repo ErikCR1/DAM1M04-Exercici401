@@ -76,11 +76,11 @@
         rows.forEach(row => {
             const stock = parseInt(row.getAttribute('data-stock'));
             
-            // Si ja té els colors activats, els netegem
+            // Neteja colors
             if (row.classList.contains('colors-active')) {
                 row.classList.remove('colors-active', 'table-success', 'table-warning', 'table-danger');
             } else {
-                // Si no, activem els colors segons l'estoc
+                // Aplica colors
                 row.classList.add('colors-active');
                 if (stock > 15) {
                     row.classList.add('table-success'); // Verd
